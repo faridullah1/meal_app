@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'DeliMeals',
       theme: ThemeData(
-          primaryColor: Colors.pink,
+          primarySwatch: Colors.pink,
           canvasColor: const Color.fromRGBO(255, 254, 229, 1),
           fontFamily: 'Raleway',
           useMaterial3: true,
@@ -27,7 +27,6 @@ class MyApp extends StatelessWidget {
                 ),
                 titleLarge: const TextStyle(
                   fontSize: 20,
-                  fontFamily: 'Raleway',
                   fontWeight: FontWeight.bold,
                 ),
               )),
