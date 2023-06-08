@@ -10,7 +10,6 @@ class CategoriesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('DeliMeal'),
-        backgroundColor: Colors.pink,
       ),
       body: GridView(
         padding: const EdgeInsets.all(25),
