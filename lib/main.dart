@@ -28,6 +28,7 @@ class _MyAppState extends State<MyApp> {
   };
 
   List<Meal> _availableMeals = DUMMY_MEALS;
+  final List<Meal> _favouriteMeals = [];
 
   void _setFilters(Map<String, bool> filterData) {
     setState(() {
@@ -53,6 +54,25 @@ class _MyAppState extends State<MyApp> {
         return true;
       }).toList();
     });
+  }
+
+  void _toggleFavourite(String mealId) {
+    final int existingMealIdx =
+        _favouriteMeals.indexWhere((meal) => meal.id == mealId);
+    if (existingMealIdx >= 0) {
+      setState(() {
+        _favouriteMeals.removeAt(existingMealIdx);
+      });
+    } else {
+      setState(() {
+        _favouriteMeals
+            .add(DUMMY_MEALS.firstWhere((meal) => meal.id == mealId));
+      });
+    }
+  }
+
+  bool _isFavourite(String mealId) {
+    return _favouriteMeals.any((meal) => meal.id == mealId);
   }
 
   // This widget is the root of your application.
@@ -81,10 +101,11 @@ class _MyAppState extends State<MyApp> {
                 ),
               )),
       routes: {
-        '/': (ctx) => const TabsScreen(),
+        '/': (ctx) => TabsScreen(favouriteMeals: _favouriteMeals),
         CategoryMealsScreen.routeName: (ctx) =>
             CategoryMealsScreen(availableMeals: _availableMeals),
-        MealDetailsScreen.routeName: (ctx) => const MealDetailsScreen(),
+        MealDetailsScreen.routeName: (ctx) => MealDetailsScreen(
+            toggleFavourite: _toggleFavourite, isFavourite: _isFavourite),
         SettingsScreen.routeName: (ctx) => SettingsScreen(
               currentSettings: _filters,
               saveFilters: _setFilters,
