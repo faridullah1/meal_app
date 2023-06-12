@@ -4,7 +4,14 @@ import '../widgets/main_drawer.dart';
 class SettingsScreen extends StatefulWidget {
   static const routeName = 'settings';
 
-  const SettingsScreen({super.key});
+  final Function saveFilters;
+  final Map<String, bool> currentSettings;
+
+  const SettingsScreen({
+    super.key,
+    required this.currentSettings,
+    required this.saveFilters,
+  });
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -17,10 +24,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
   var _vegetarian = false;
 
   @override
+  void initState() {
+    _glutenFree = widget.currentSettings['gluten'] as bool;
+    _lactoseFree = widget.currentSettings['lactose'] as bool;
+    _vegan = widget.currentSettings['vegan'] as bool;
+    _vegetarian = widget.currentSettings['vegetarian'] as bool;
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              final selectedFilters = {
+                'gluten': _glutenFree,
+                'lactose': _lactoseFree,
+                'vegetarian': _vegetarian,
+                'vegan': _vegan
+              };
+              widget.saveFilters(selectedFilters);
+            },
+            icon: const Icon(Icons.save),
+          )
+        ],
       ),
       body: Column(children: [
         Container(
